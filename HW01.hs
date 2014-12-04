@@ -15,7 +15,14 @@ isThisWorking = "Yes"
 -- Put your work below.
 
 lastDigit :: Integer -> Integer
-lastDigit x = x `mod` 10
+lastDigit n = n `mod` 10
 
 dropLastDigit :: Integer -> Integer
-dropLastDigit x = (x - lastDigit x) `div` 10
+dropLastDigit n = n `div` 10
+
+
+toDigits :: Integer -> [Integer]
+toDigits n 
+   | n < 1    = []
+   | otherwise = toDigits (dropLastDigit n) ++ [lastDigit n]
+
