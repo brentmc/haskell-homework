@@ -25,7 +25,7 @@ the third last is unchanged
 doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther [] = []
 doubleEveryOther (x:[]) = [x]
-doubleEveryOther (x:y:zs) = reverse (double2nd (reverse (x:y:zs))) 
+doubleEveryOther (xs) = reverse (double2nd (reverse (xs))) 
 
 --doubles every second element in the given list
 double2nd :: [Integer] -> [Integer]
@@ -40,7 +40,7 @@ double n = n * 2
 sumAllDigitsInList :: [Integer] -> Integer
 sumAllDigitsInList [] = 0
 sumAllDigitsInList [x] = x
-sumAllDigitsInList (x:y:zs) = sumDigitsInInteger x + sumDigitsInInteger y +  sumAllDigitsInList zs
+sumAllDigitsInList (x:ys) = sumDigitsInInteger x + sumAllDigitsInList ys
 
 --sums all of the digits in a single Integer
 sumDigitsInInteger :: Integer -> Integer
