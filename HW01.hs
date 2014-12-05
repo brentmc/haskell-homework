@@ -54,3 +54,6 @@ sumAllDigits :: Integer -> Integer
 sumAllDigits n
    | n < 1 = 0
    | otherwise = lastDigit n + sumAllDigits(dropLastDigit n)
+
+validate :: Integer -> Bool
+validate n = (sumDigits  (doubleEveryOther (toDigits n))) `mod` 10 == 0
