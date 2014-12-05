@@ -26,3 +26,19 @@ toDigits n
    | n < 1    = []
    | otherwise = toDigits (dropLastDigit n) ++ [lastDigit n]
 
+
+
+doubleEveryOther :: [Integer] -> [Integer]
+doubleEveryOther [] = []
+doubleEveryOther (x:[]) = [x]
+doubleEveryOther (x:y:zs) = reverse (double2nd (reverse (x:y:zs))) 
+
+
+double2nd :: [Integer] -> [Integer]
+double2nd [] = []
+double2nd (x:[]) = [x]
+double2nd (x:y:zs) = x : double y : double2nd zs 
+
+
+double :: Integer -> Integer
+double n = n * 2
