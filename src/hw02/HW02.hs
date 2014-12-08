@@ -29,9 +29,17 @@ type Template = String
 -- these special squares are in the same word, the effects multiply.
 type STemplate = Template
 
--- Write your code below:
+{-
+	Loops through and determines if the first letter in the word is also in the hand.
+	If so, it strips the first letter off the word and deletes it from the hand
+	before recursively calling the function with the remaining letters in the word and hand
+-}
 formableBy :: String -> Hand -> Bool
-formableBy = undefined
+formableBy [] _ = True							--if there are no more letters left in the substring
+formableBy _ [] = False            				--if there are still letters in the word but none left in the hand return false
+formableBy (x:xs) hand
+   | x `notElem` hand = False					--if the next letter in the requested word is not in the hand, return false
+   | otherwise = formableBy xs (delete x hand)  --otherwise splice the first letter from the start of the substring and remove the first instance of the letter from the hand
 
 wordsFrom :: Hand -> [String]
 wordsFrom hand = filter (`formableBy` hand) allWords
