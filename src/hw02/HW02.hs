@@ -43,3 +43,48 @@ formableBy (x:xs) hand
 
 wordsFrom :: Hand -> [String]
 wordsFrom hand = filter (`formableBy` hand) allWords
+
+-- wordFitsTemplate :: Template -> Hand -> String -> Bool
+-- wordFitsTemplate _ _ [] = True							--if there are no more letters left in the substring
+-- wordFitsTemplate _ [] _ = False							--if there are still letters in the word but none left in the hand return false
+-- wordFitsTemplate (x:xs) hand (y:ys)
+--  | x /= '?' = wordFitsTemplate xs hand ys
+-- | y `notElem` hand = False
+-- | otherwise = wordFitsTemplate xs (delete y hand) ys 
+
+
+-- wordFitsTemplate _ _ [] = True							--if there are no more letters left in the substring
+-- wordFitsTemplate _ [] _ = False							--if there are still letters in the word but none left in the hand return false
+
+-- wordFitsTemplate template hand string
+--   | length template /= length string = False
+--   | 
+
+
+-- wordFitsTemplate template hand string = let wordsFromHand = wordsFrom hand string in
+
+
+-- Returns a list of all the words that can be made from the hand and have the same number of letters as the template
+getWordsWithCorrectLength :: Hand -> Template -> [String]
+getWordsWithCorrectLength [] _ = []
+getWordsWithCorrectLength _ [] = []
+getWordsWithCorrectLength hand template = [word | word <- wordsFrom hand, length word == length template]
+
+-- Returns a filtered list of all the given words that fit the given Template
+getWordsThatFitTemplate :: [String] -> Template -> [String]
+getWordsThatFitTemplate [] _ = []
+getWordsThatFitTemplate _ [] = []
+getWordsThatFitTemplate wordsList template = filter (`doesWordFitTemplate` template) wordsList
+
+
+-- Returns True if the given word fits the given template
+doesWordFitTemplate :: String -> Template -> Bool
+doesWordFitTemplate [] _ = True
+doesWordFitTemplate (x:xs) (y:ys)
+   | length xs /= length ys = False
+   | y == '?' = doesWordFitTemplate xs ys
+   | y == x = doesWordFitTemplate xs ys
+   | otherwise = False
+   
+
+                                        
