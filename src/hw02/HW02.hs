@@ -47,8 +47,10 @@ getWordsFormableBy hand = filter (`isFormableBy` hand) allWords
 
 -- Returns True if the given word can be made from the given hand and fit the given Template
 canWordBeMadeFromHandAndFitTemplate :: Template -> Hand -> String -> Bool
-canWordBeMadeFromHandAndFitTemplate template hand wordStr = let wordsThatFitTemplate = getWordsThatFitTemplate (getWordsFormableBy hand) template in
-											                wordStr `elem` wordsThatFitTemplate
+canWordBeMadeFromHandAndFitTemplate template hand wordStr = let wordsThatFitTemplate = getWordsThatFitTemplate allWords template
+                                                                wordsFormableByHand = getWordsFormableBy hand
+                                                                wordsInBothLists = getAllElementsInBothLists wordsThatFitTemplate wordsFormableByHand
+											                in wordStr `elem` wordsInBothLists
 		
 -- Returns a filtered list of all the given words that fit the given Template
 getWordsThatFitTemplate :: [String] -> Template -> [String]
@@ -64,6 +66,13 @@ doesWordFitTemplate (x:xs) (y:ys)
    | y == '?' = doesWordFitTemplate xs ys
    | y == x = doesWordFitTemplate xs ys
    | otherwise = False
+
+-- getWordsThatCanBeMadeFromHandAndFitTemplate :: [String] -> [String] -> [String]
+-- getWordsThatCanBeMadeFromHandAndFitTemplate   
+
+getAllElementsInBothLists :: Eq a => [a] -> [a] -> [a]
+getAllElementsInBothLists (x:xs) listB = [x | x <- xs, x `elem` listB]
+
    
 
                                         
