@@ -34,23 +34,22 @@ type STemplate = Template
 	If so, it strips the first letter off the word and deletes it from the hand
 	before recursively calling the function with the remaining letters in the word and hand
 -}
-formableBy :: String -> Hand -> Bool
-formableBy [] _ = True							--if there are no more letters left in the substring
-formableBy _ [] = False            				--if there are still letters in the word but none left in the hand return false
-formableBy (x:xs) hand
-   | x `notElem` hand = False					--if the next letter in the requested word is not in the hand, return false
-   | otherwise = formableBy xs (delete x hand)  --otherwise splice the first letter from the start of the substring and remove the first instance of the letter from the hand
+isFormableBy :: String -> Hand -> Bool
+isFormableBy [] _ = True							--if there are no more letters left in the substring
+isFormableBy _ [] = False            				--if there are still letters in the word but none left in the hand return false
+isFormableBy (x:xs) hand
+   | x `notElem` hand = False					    --if the next letter in the requested word is not in the hand, return false
+   | otherwise = isFormableBy xs (delete x hand)    --otherwise splice the first letter from the start of the substring and remove the first instance of the letter from the hand
 
-wordsFrom :: Hand -> [String]
-wordsFrom hand = filter (`formableBy` hand) allWords
+-- Returns all of the words that can be made from the given hand
+getWordsFormableBy :: Hand -> [String]
+getWordsFormableBy hand = filter (`isFormableBy` hand) allWords
 
-
--- Returns a list of all the words that can be made from the hand and have the same number of letters as the template
-getWordsWithCorrectLength :: Hand -> Template -> [String]
-getWordsWithCorrectLength [] _ = []
-getWordsWithCorrectLength _ [] = []
-getWordsWithCorrectLength hand template = [word | word <- wordsFrom hand, length word == length template]
-
+-- Returns True if the given word can be made from the given hand and fit the given Template
+canWordBeMadeFromHandAndFitTemplate :: Template -> Hand -> String -> Bool
+canWordBeMadeFromHandAndFitTemplate template hand wordStr = let wordsThatFitTemplate = getWordsThatFitTemplate (getWordsFormableBy hand) template in
+											                wordStr `elem` wordsThatFitTemplate
+		
 -- Returns a filtered list of all the given words that fit the given Template
 getWordsThatFitTemplate :: [String] -> Template -> [String]
 getWordsThatFitTemplate [] _ = []
