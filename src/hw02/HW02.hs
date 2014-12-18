@@ -65,3 +65,28 @@ getWordsFittingTemplate template hand = filter(\wordStr -> doesWordFitTemplate t
 -- Exercise 5
 getScrabbleWordValue :: String -> Int 
 getScrabbleWordValue wordStr = sum( map (scrabbleValue) wordStr)	--grab the letter value for each letter in the given word and then add all letter values together
+
+-- Exercise 6
+getBestWords :: [String] -> [String]
+getBestWords [] = []
+getBestWords wordsList = let bestWordScore = getBestScore wordsList 0		                                   -- call the first iteration with an intial value of bestScore set to 0
+                            in filter (\wordStr -> (getScrabbleWordValue wordStr) == bestWordScore) wordsList  -- get all words that have a wordScore == the bestWordScore
+
+getBestScore :: [String] -> Int -> Int
+getBestScore [] bestScore = bestScore 					--There are no more words left, return the current bestScore
+getBestScore (x:xs) bestScore = let currentWordScore = getScrabbleWordValue x 
+                                   in getBestScore xs (maximum [currentWordScore, bestScore])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
