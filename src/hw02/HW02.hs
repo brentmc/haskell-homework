@@ -45,34 +45,13 @@ isFormableBy (x:xs) hand
 getWordsFormableBy :: Hand -> [String]
 getWordsFormableBy hand = filter (`isFormableBy` hand) allWords
 
--- Returns True if the given word can be made from the given hand and fit the given Template
-canWordBeMadeFromHandAndFitTemplate :: Template -> Hand -> String -> Bool
-canWordBeMadeFromHandAndFitTemplate template hand wordStr = let wordsThatFitTemplate = getWordsThatFitTemplate allWords template
-                                                                wordsFormableByHand = getWordsFormableBy hand
-                                                                wordsInBothLists = getAllElementsInBothLists wordsThatFitTemplate wordsFormableByHand
-											                in wordStr `elem` wordsInBothLists
-		
--- Returns a filtered list of all the given words that fit the given Template
-getWordsThatFitTemplate :: [String] -> Template -> [String]
-getWordsThatFitTemplate [] _ = []
-getWordsThatFitTemplate _ [] = []
-getWordsThatFitTemplate wordsList template = filter (`doesWordFitTemplate` template) wordsList
-
--- Returns True if the given word fits the given template
-doesWordFitTemplate :: String -> Template -> Bool
-doesWordFitTemplate [] _ = True
-doesWordFitTemplate (x:xs) (y:ys)
-   | length xs /= length ys = False
-   | y == '?' = doesWordFitTemplate xs ys
-   | y == x = doesWordFitTemplate xs ys
-   | otherwise = False
-
--- getWordsThatCanBeMadeFromHandAndFitTemplate :: [String] -> [String] -> [String]
--- getWordsThatCanBeMadeFromHandAndFitTemplate   
-
-getAllElementsInBothLists :: Eq a => [a] -> [a] -> [a]
-getAllElementsInBothLists (x:xs) listB = [x | x <- xs, x `elem` listB]
-
-   
-
-                                        
+-- Exercise 3
+doesWordFitTemplate :: Template -> Hand -> String -> Bool
+doesWordFitTemplate [] _ [] = True										--if there are no more letters left in both the template and the word
+doesWordFitTemplate [] _ _ = False                                    	--if there are no more letters left in the template but some in the word
+doesWordFitTemplate (x:xs) hand (z:zs)
+   | length xs /= length zs = False         
+   | x =='?' && z `notElem` hand = False
+   | x =='?' && z `elem` hand = doesWordFitTemplate xs (delete z hand) zs
+   | x == z = doesWordFitTemplate xs (delete z hand) zs
+   | otherwise = False                           
