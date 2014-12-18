@@ -81,15 +81,14 @@ getBestScore (x:xs) bestScore = let currentWordScore = getScrabbleWordValue x
 -- Exercise 7
 scrabbleValueTemplate :: STemplate -> String -> Int
 scrabbleValueTemplate sTemplate wordStr = let allWordMultiplier = getAllWordMultipliers sTemplate 1
-                                             in foobar sTemplate wordStr allWordMultiplier 0
+                                             in scrabbleValueTemplateHelper sTemplate wordStr allWordMultiplier 0
 
-foobar :: STemplate -> String -> Int -> Int -> Int
-foobar [] _ _ accum = accum
-foobar (x:xs) (y:ys) wordMulti accum = let letterMulti = getLetterMultiplier x
-                                           letterValue = scrabbleValue y
-                                           totalForThisLetter = letterMulti * letterValue * wordMulti
-                                          in foobar xs ys wordMulti (accum + totalForThisLetter)
-
+scrabbleValueTemplateHelper :: STemplate -> String -> Int -> Int -> Int
+scrabbleValueTemplateHelper [] _ _ accum = accum
+scrabbleValueTemplateHelper (x:xs) (y:ys) wordMulti accum = let letterMulti = getLetterMultiplier x
+                                                                letterValue = scrabbleValue y
+                                                                totalForThisLetter = letterMulti * letterValue * wordMulti
+                                                             in scrabbleValueTemplateHelper xs ys wordMulti (accum + totalForThisLetter)
 
 
 -- Returns the product of all of the word multipliers
