@@ -61,3 +61,7 @@ getWordsFittingTemplate :: Template -> Hand -> [String]
 getWordsFittingTemplate [] _ = []
 getWordsFittingTemplate _ [] = []
 getWordsFittingTemplate template hand = filter(\wordStr -> doesWordFitTemplate template hand wordStr) allWords
+
+-- Exercise 5
+getScrabbleWordValue :: String -> Int 
+getScrabbleWordValue wordStr = sum( map (scrabbleValue) wordStr)	--grab the letter value for each letter in the given word and then add all letter values together
