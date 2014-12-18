@@ -55,3 +55,9 @@ doesWordFitTemplate (x:xs) hand (z:zs)
    | x =='?' && z `elem` hand = doesWordFitTemplate xs (delete z hand) zs
    | x == z = doesWordFitTemplate xs (delete z hand) zs
    | otherwise = False                           
+
+-- Exercise 4
+getWordsFittingTemplate :: Template -> Hand -> [String]
+getWordsFittingTemplate [] _ = []
+getWordsFittingTemplate _ [] = []
+getWordsFittingTemplate template hand = filter(\wordStr -> doesWordFitTemplate template hand wordStr) allWords
