@@ -45,3 +45,8 @@ readTimeStamp timeStamp = read timeStamp
 --effectively casts the severity from a String to an Int      
 readError :: String -> Int
 readError severity = read severity :: Int   
+
+--Exercise 02
+validMessagesOnly :: [MaybeLogMessage] -> [LogMessage]
+validMessagesOnly [] = []
+validMessagesOnly maybeLogMessagesAr = [logMessage | ValidLM logMessage <- maybeLogMessagesAr] --cycles through all of the maybeLogMessages and pushes it to the return array if it is Valid
